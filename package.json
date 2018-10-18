@@ -55,7 +55,7 @@
     "ember-pouch": "^6.0.0",
     "ember-power-select": "^2.0.7",
     "ember-power-select-blockless": "^0.5.0",
-    "ember-qunit": "^3.4.1",
+    "ember-qunit": "^3.5.2",
     "ember-resolver": "^5.0.1",
     "ember-route-action-helper": "^2.0.6",
     "ember-service-worker": "^0.7.0",
