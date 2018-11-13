@@ -59,9 +59,15 @@ export default Adapter.extend({
   },
 
   unloadedDocumentChanged: function(obj) {
-    this.get('refreshIndicator').kickSpin();
+    console.log(`JRQ-DEBUG: unloadedDocumentChanged called`); // eslint-disable-line no-console
+    const store = this.get('store');
+    if (store.get('isDestroyed')) {
+      console.log(`JRQ-DEBUG: aborting since store was destroyed`); // eslint-disable-line no-console
+      //debugger; // eslint-disable-line no-debugger
+      return;
+    }
 
-    let store = this.get('store');
+    this.get('refreshIndicator').kickSpin();
     let recordTypeName = this.getRecordTypeName(store.modelFor(obj.type));
     this.get('db').rel.find(recordTypeName, obj.id).then(function(doc) {
       store.pushPayload(recordTypeName, doc);

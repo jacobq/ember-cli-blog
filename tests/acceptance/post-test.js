@@ -20,7 +20,7 @@ module('Acceptance | post', function(hooks) {
     store = this.owner.__container__.lookup('service:store');
   });
 
-  test('Create + delete', async function(assert) {
+  test('Create + delete from GUI', async function(assert) {
     await visit('/');
 
     // 0. Ensure there are no posts in the store to start with
