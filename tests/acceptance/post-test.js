@@ -1,6 +1,13 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, click, find, fillIn, waitFor,
-//git st  pauseTest
+import {
+  click,
+  currentURL,
+  find,
+  fillIn,
+// pauseTest,
+  settled,
+  visit,
+  waitFor,
 } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 
@@ -31,6 +38,7 @@ module('Acceptance | post', function(hooks) {
     const deleteBtn = find('[data-test-id="delete-post-button"]');
     await click(deleteBtn);
 
+    await settled();
     assert.equal(currentURL(), '/posts');
   });
 });
