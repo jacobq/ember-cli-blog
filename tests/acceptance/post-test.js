@@ -14,8 +14,22 @@ import { setupApplicationTest } from 'ember-qunit';
 module('Acceptance | post', function(hooks) {
   setupApplicationTest(hooks);
 
+  let store; // would setup here, but this.owner isn't available
+
+  hooks.beforeEach(function() {
+    store = this.owner.__container__.lookup('service:store');
+  });
+
   test('Create + delete', async function(assert) {
     await visit('/');
+
+    // 0. Ensure there are no posts in the store to start with
+    const preexistingPosts = await store.findAll('post');
+    await Promise.all(preexistingPosts.map(p => p.destroyRecord()));
+
+    await store.findAll('post');
+    assert.equal(store.peekAll('post').get('length'), 0, "There shouldn't be any posts (just destroyed them all)");
+
 
     // 1. Click "Create" to start editing a new post
     const createBtn = find('[data-test-id="create-post-button"]');
@@ -40,5 +54,9 @@ module('Acceptance | post', function(hooks) {
 
     await settled();
     assert.equal(currentURL(), '/posts');
+
+    // 6. Make sure there aren't any posts (since there weren't any to start with, then we added one, then we deleted it)
+    const finalPosts = await store.findAll('post');
+    assert.equal(finalPosts.get('length'), 0, "There shouldn't be any posts (1-1=0)");
   });
 });
